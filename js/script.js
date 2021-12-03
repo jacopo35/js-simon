@@ -31,12 +31,31 @@ for (let i = 0; i < randNum.length; i++) {
 }
 let arrayNum = []
 
-
-
 setTimeout(() => {
-  container.innerHTML = ""
+ container.innerHTML = ""
+setTimeout(() => {
+   let arrayNum = [];
+    for (let i = 0; i < 5; i++) {
+   let ask = parseInt(prompt("Digita i numeri vista prima"))
+        arrayNum.push(ask);
+        }
+    let cond = 0
+    let arrayCond = []
+     for (let i = 0; i < 5; i++) {
+         if (randNum[i] == arrayNum[i] && !isNaN(randNum[i] && !isNaN(arrayNum[i]))) {
+             cond++
+             arrayCond.push(arrayNum[i])
+            }
+        }
+     for (let i = 0; i < arrayCond.length; i++) {
+          container.innerHTML = `hai indovinato ${cond} numeri`
+          container2.innerHTML += arrayCond[i] + " ";
+        }
+        console.log(cond);
+    }, 200)
 }, 3000)
 
+/*
 //Indicare i numeri visti
 setTimeout(() => {
  for (let i = 0; i < 5; i++) {
@@ -54,5 +73,5 @@ for (let i = 0; i < 5; i++) {
  } else {
     console.log("");
     }
+    */
 
-}

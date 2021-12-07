@@ -5,73 +5,92 @@ Dopo 30 secondi l’utente deve inserire, uno alla volta, i numeri che ha visto 
 Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati.
 */
 
+// Funzioni generali
+
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-function randomFunc() {
-  let randomNumber = [];
- while (randomNumber.length < 5) {
-    let random = getRndInteger(1, 5)
- while (randomNumber.includes(random)) {
-        random = getRndInteger(1, 5)
+
+function randomFunc(length) {
+    let randomNumber = [];
+
+    while (randomNumber.length < length) {
+        let random = getRndInteger(1, 100)
+        while (randomNumber.includes(random)) {
+            random = getRndInteger(1, 100)
         }
         randomNumber.push(random);
     }
     return randomNumber
 }
 
-//Generare numeri random
-let randNum = randomFunc();
 
-console.log(randNum);
-const container = document.querySelector(".container");
+//Creao, tramite le funzioni, numeri randomici
 
-for (let i = 0; i < randNum.length; i++) {
-  container.innerHTML += randNum[i] + " ";
-}
-let arrayNum = []
+const button = document.querySelector("button")
 
-setTimeout(() => {
- container.innerHTML = ""
-setTimeout(() => {
-   let arrayNum = [];
-    for (let i = 0; i < 5; i++) {
-   let ask = parseInt(prompt("Digita i numeri vista prima"))
-        arrayNum.push(ask);
-        }
-    let cond = 0
-    let arrayCond = []
-     for (let i = 0; i < 5; i++) {
-         if (randNum[i] == arrayNum[i] && !isNaN(randNum[i] && !isNaN(arrayNum[i]))) {
-             cond++
-             arrayCond.push(arrayNum[i])
+button.addEventListener("click", function () {
+
+  const level = document.getElementById("level")
+  const levelSelect = level.value
+
+   let randNum = randomFunc();
+
+
+ switch (levelSelect) {
+    default:
+    case "easy":
+        randNum = randomFunc(5);
+
+    case "medium":
+        randNum = randomFunc(10);
+
+    case "hard":
+        randNum = randomFunc(15);
+    }
+
+    console.log(randNum);
+    const container = document.querySelector(".container");
+
+    for (let i = 0; i < randNum.length; i++) {
+        container.innerHTML += randNum[i] + "";
+    }
+
+  let second = 5
+
+  setTimeout(() => {
+     container.innerHTML = ""
+    const timer = setInterval(() => {
+         if (second > 0) {
+            container.innerHTML = `occhio ai numeri...mancano pochi secondi per memorizzarli! ${second}`
+            second--
+            } else {
+            clearInterval(timer)
+            container.innerHTML = "START"
+            setTimeout(() => {
+                let arrayNum = []; 
+                let cond = 0;
+                let arrayCond = [];
+                 for (let i = 0; i < randNum.length; i++) {
+                      let ask = parseInt(prompt("Metti un numero da 1 a 100"))
+                    while (isNaN(ask) || ask < 0 || ask > 100) {
+                          ask = parseInt(prompt("Numero errato...riprova!"))
+                        }
+                    while (arrayNum.includes(ask)) {
+                          ask = parseInt(prompt(""))
+                        }
+
+                        arrayNum.push(ask);
+                    if (randNum.includes(arrayNum[i])) {
+                        cond++
+                        arrayCond.push(arrayNum[i])
+                        }
+                    }
+                    container.innerHTML = `hBravo! Hai indovinato${cond}`
+
+                }, 200)
             }
-        }
-     for (let i = 0; i < arrayCond.length; i++) {
-          container.innerHTML = `hai indovinato ${cond} numeri`
-          container2.innerHTML += arrayCond[i] + " ";
-        }
-        console.log(cond);
-    }, 200)
-}, 3000)
-
-/*
-//Indicare i numeri visti
-setTimeout(() => {
- for (let i = 0; i < 5; i++) {
-      let ask = parseInt(prompt(""))
-       arrayNum.push(ask);
-    }
-}, 4000)
-
-console.log(arrayNum);
-
-//Dichiarare la vittoria o la sconfitta dell'utente
-for (let i = 0; i < 5; i++) {
- if (randNum[i] == arrayNum[i]) {
-        console.log("");
- } else {
-    console.log("");
-    }
-    */
+        }, 1000)
+    }, 3000)
+})
 
